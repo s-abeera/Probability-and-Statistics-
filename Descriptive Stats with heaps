@@ -1,0 +1,86 @@
+import heapq 
+
+
+def median(minh, maxh):
+    '''
+    Find the median from two heaps.
+    
+    Parameters
+    ----------
+    minh : heap
+    	A min heap 
+    maxh : heap
+    	A max heap 
+    
+    Returns
+    -------
+    heap
+    	The median of two heaps 
+    '''
+    # your code here
+    if len(minh) == len(maxh):
+        return ((minh[0] + (-maxh[0]))/2)
+    
+    elif len(minh) < len(maxh):
+        return maxh[0]*-1
+   
+    else:
+        return minh[0]
+
+
+
+
+
+import heapq
+
+def add_to_median_heap(minh, maxh, elem):
+    '''
+    Find the median of a min heap and max heap, push a new element in one of them 
+    depending after comparing it with the median, and balance two heaps. 
+    
+    Parameters
+    ----------
+    minh : heap
+    	A min heap. Default is empty. 
+    maxh : heap
+    	A max heap. Default is empty. 
+    elem: int
+    	An element to push in minh or maxh
+    
+    Returns
+    -------
+    None
+    '''
+    # your code here
+    #adding elements to empty lists 
+    if not maxh:
+        maxh.append(elem*-1)
+    elif not minh:
+        minh.append(elem)
+    else: 
+        if elem <= (maxh[0]):
+            heapq.heappush(maxh, elem*-1)
+        else:
+            heapq.heappush(minh, elem)
+    #adding elements to heap subseqeuntly     
+    
+    
+    #maintaining a difference of 1 in the heap sizes
+    if len(maxh) > len(minh) + 1:
+        heapq.heappush(minh, heapq.heappop(maxh)*-1)
+    elif len(minh) > len(maxh) + 1:
+        heapq.heappush(maxh, heapq.heappop(minh)*-1)
+
+# testing your code
+lst = []
+minh = []
+maxh = []
+for a in range(1,100,2):
+    add_to_median_heap(minh, maxh, a)
+    lst.append(median(minh, maxh))
+
+#print(minh)
+#print(maxh)
+print(lst)
+#print(list(range(1, 51)))
+#assert(lst == list(range(1,51)))
